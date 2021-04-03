@@ -1,0 +1,45 @@
+entities:
+  - name: "User"
+    fields:
+      - domain_id: "userId"
+        mapper_id: "user_id"
+        type: "string"
+        access_modifier: "private"
+        optional: false
+      - domain_id: "email"
+        mapper_id: "email"
+        type: "string"
+        access_modifier: "public"
+        optional: false
+      - domain_id: "password"
+        mapper_id: "password"
+        type: "string"
+        access_modifier: "public"
+        optional: false
+      - domain_id: "fullName"
+        mapper_id: "full_name"
+        type: "string"
+        access_modifier: "public"
+        optional: true
+  - name: "Event"
+    fields:
+      - domain_id: "userId"
+        mapper_id: "user_id"
+        type: "string"
+        access_modifier: "private"
+        optional: false
+      - domain_id: "email"
+        mapper_id: "email"
+        type: "string"
+        access_modifier: "public"
+        optional: false
+      - domain_id: "password"
+        mapper_id: "password"
+        type: "string"
+        access_modifier: "public"
+        optional: false
+      - domain_id: "fullName"
+        mapper_id: "full_name"
+        type: "string"
+        access_modifier: "public"
+        optional: true
