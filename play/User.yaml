@@ -1,5 +1,6 @@
 entities:
   - name: "User"
+    has_mapper: true
     fields:
       - domain_id: "userId"
         mapper_id: "user_id"
@@ -22,6 +23,7 @@ entities:
         access_modifier: "public"
         optional: true
   - name: "Event"
+    has_mapper: true
     fields:
       - domain_id: "userId"
         mapper_id: "user_id"

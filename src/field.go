@@ -34,6 +34,14 @@ func (f Field) ToClassSetter() string {
 		"\t}\n",f.DomainId,f.DomainId,f.Type,f.DomainId,f.DomainId)
 }
 
+func (f Field) ToDomainMapperField() string {
+	return fmt.Sprintf("\t\t%s: model.%s,\n",f.DomainId,f.MapperId)
+}
+
+func (f Field) ToPersistenceMapperField() string {
+	return fmt.Sprintf("\t\t%s: domainModel.%s,\n",f.MapperId,f.DomainId)
+}
+
 func InstructionToField() Field {
 	return Field{}
 }

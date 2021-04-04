@@ -8,9 +8,48 @@ import (
 type Entity struct {
 	Name string    `yaml:"name"'`
 	Fields []Field `yaml:"fields"`
+	HasMapper bool `yaml:"has_mapper"`
 }
 
-func (e Entity) PrintToFile()  {
+
+func (e Entity) CreateMapper() {
+	if e.HasMapper==false {
+		return
+	}
+	mapperName:=fmt.Sprintf("%sMapper",e.Name)
+	filename:=fmt.Sprintf("%s.ts",mapperName)
+
+	domainMapper:=""
+	persistenceMapper:=""
+
+	for _, field := range e.Fields {
+		domainMapper+=field.ToDomainMapperField()
+		persistenceMapper+=field.ToPersistenceMapperField()
+	}
+
+	outputFileData:=fmt.Sprintf("export default class %s {\n" +
+		"\tpublic static toDomain(model : any) {\n" +
+		"\t\treturn new %s({\n%s\n})" +
+		"\t}\n\n" +
+		"\tpublic static toPersistence(domainModel : %s) {\n" +
+		"\t\treturn {\n%s\n}" +
+		"\t}\n\n" +
+		"}\n",
+		mapperName,
+		e.Name,
+		domainMapper,
+		e.Name,
+		persistenceMapper,
+		)
+
+	println()
+	err := ioutil.WriteFile(destPath+"/mappers/"+filename,[]byte(outputFileData),0644)
+	if err!=nil {
+		print(err)
+	}
+}
+
+func (e Entity) CreateDomain()  {
 	filename:=fmt.Sprintf("%s.ts",e.Name)
 	className:=fmt.Sprintf("%s",e.Name)
 	interfaceName:=fmt.Sprintf("I%s",e.Name)
@@ -55,8 +94,8 @@ func (e Entity) PrintToFile()  {
 		interfaceName)
 
 	println()
-	err := ioutil.WriteFile(destFilePath+"/"+filename,[]byte(outputFileData),0644)
+	err := ioutil.WriteFile(destPath+"/domain/"+filename,[]byte(outputFileData),0644)
 	if err!=nil {
-		print(err)
+		print(err.Error())
 	}
 }
